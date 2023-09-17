@@ -1,7 +1,9 @@
 #include <cstdio>
+#include "app.h"
 
 int main()
 {
-  puts("Hello, particles!");
+  App app;
+  app.run();
   return 0;
 }
