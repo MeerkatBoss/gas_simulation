@@ -29,16 +29,22 @@ struct Reagents
 class Reaction
 {
 public:
+  Reaction(double energy_produced) : m_energyProduced(energy_produced) {}
+
+  double getEnergyProduced() const { return m_energyProduced; }
+
   virtual bool      hasNextResult() const = 0;
   virtual Molecule* getNextResult()       = 0;
   
   virtual ~Reaction() = default;
+private:
+  const double m_energyProduced;
 };
 
 class ReactionTemplate
 {
 public:
-  virtual ReactionTemplate* startReaction(const Reagents& reagents) = 0;
+  virtual Reaction* startReaction(const Reagents& reagents) = 0;
 
   virtual ~ReactionTemplate() = default;
 };
@@ -58,6 +64,8 @@ public:
   {
     m_reactions.pushBack(new TReaction(args...));
   }
+
+  Reaction* buildReaction();
 
   ~ReactionBuilder()
   {
