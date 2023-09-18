@@ -13,7 +13,8 @@
 #define __SIMULATION_MOLECULE_H
 
 #include "math/transform.h"
-#include "ui/render_window.h"
+#include "simulation/scene_object.h"
+#include "simulation/movable.h"
 
 namespace sim
 {
@@ -21,41 +22,25 @@ namespace sim
 // Forward declaration
 class ReactionBuilder;
 
-// Forward declaration
-class IntersectionBuilder;
-
-class Molecule
+class Molecule : public SceneObject, public Movable
 {
 public:
   Molecule(      double           mass      = 1,
            const math::Vec&       velocity  = math::Vec(),
            const math::Transform& transform = math::Transform()) :
-    m_transform(transform),
-    m_velocity(velocity),
-    m_mass(mass)
+    SceneObject(transform), Movable(mass, velocity)
   {
   }
 
-  const math::Transform& transform() const { return m_transform; }
-        math::Transform& transform()       { return m_transform; }
+  virtual bool isMovable() const override { return true; }
 
-  const math::Vec& velocity() const { return m_velocity; }
-        math::Vec& velocity()       { return m_velocity; }
-
-  double getMass() const { return m_mass; };
+  virtual Movable* asMovable() override { return this; }
 
   virtual void addToReaction(ReactionBuilder& builder) const = 0;
 
-  virtual void addToIntersection(IntersectionBuilder& builder) const = 0;
-
-  virtual void draw(ui::RenderWindow& window) const = 0;
+  virtual void collide(SceneObject& other) const override;
 
   virtual ~Molecule() = default;
-
-private:
-  math::Transform m_transform;
-  math::Vec       m_velocity;
-  const double    m_mass;
 };
 
 } // namespace sim

@@ -29,7 +29,7 @@ public:
 
   void addToReaction(ReactionBuilder& builder) const override;
 
-  void addToIntersection(IntersectionBuilder& builder) const override;
+  BoundingBox getBoundingBox() const override;
 
   void draw(ui::RenderWindow& window) const override;
 
