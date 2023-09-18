@@ -75,7 +75,7 @@ public:
   {
     if (m_capacity > defaultCapacity)
     {
-      TElem new_data = new TElem[defaultCapacity];
+      TElem* new_data = new TElem[defaultCapacity];
 
       m_data     = new_data;
       m_capacity = defaultCapacity;
