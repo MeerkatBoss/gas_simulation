@@ -13,7 +13,11 @@ void RenderWindow::draw(      sf::RenderTarget& draw_target,
   sf::Sprite sprite(m_renderTexture.getTexture());
   sprite.setRotation(realTransform.getAngleDeg());
   sprite.setPosition(realTransform.getPosition());
-  sprite.setScale   (realTransform.getScale());
+
+  math::Vec targetScale = realTransform.getScale();
+  targetScale.x /= renderTexture().getSize().x;
+  targetScale.y /= renderTexture().getSize().y;
+  sprite.setScale(targetScale);
   
   draw_target.draw(sprite);
 }
