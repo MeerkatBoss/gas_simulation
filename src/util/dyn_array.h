@@ -66,9 +66,29 @@ public:
   void popBack()
   {
     --m_size;
-    m_data[m_size].~TElem();
+    m_data[m_size] = TElem();
 
     tryShrink();
+  }
+
+  void clear()
+  {
+    if (m_capacity > defaultCapacity)
+    {
+      TElem new_data = new TElem[defaultCapacity];
+
+      m_data     = new_data;
+      m_capacity = defaultCapacity;
+    }
+    else
+    {
+      for (size_t i = 0; i < m_size; ++i)
+      {
+        m_data[i] = TElem();
+      }
+    }
+
+    m_size = 0;
   }
 
   size_t getSize() const { return m_size; }
