@@ -114,7 +114,7 @@ private:
 
   void tryGrow()
   {
-    if (m_size <= m_capacity) return;
+    if (m_size < m_capacity) return;
 
     const size_t new_capacity = 2*m_capacity;
     TElem* new_data = new TElem[new_capacity];
