@@ -76,6 +76,9 @@ public:
     tryShrink();
   }
 
+  const TElem& front() const { return m_data[0]; }
+  const TElem& back() const { return m_data[m_size - 1]; }
+
   void clear()
   {
     if (m_capacity > defaultCapacity)

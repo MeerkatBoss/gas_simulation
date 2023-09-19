@@ -42,7 +42,8 @@ class SceneObject
 public:
   SceneObject(math::Transform transform) :
     m_transform(transform),
-    m_dead(false)
+    m_dead(false),
+    m_objectId(++s_idCounter)
   {
   }
 
@@ -55,6 +56,8 @@ public:
   {
     return getBoundingBox().hasIntersectionWith(other.getBoundingBox());
   }
+
+  size_t getId() const { return m_objectId; }
 
   virtual void collide(SceneObject& other) const = 0;
 
@@ -77,8 +80,11 @@ protected:
   virtual void _kill() { return; }
 
 private:
+  static size_t s_idCounter;
+
   math::Transform m_transform;
   bool            m_dead;
+  size_t          m_objectId;
 };
 
 } // namespace sim
