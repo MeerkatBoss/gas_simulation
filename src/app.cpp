@@ -1,6 +1,7 @@
 #include "app.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include "math/transform.h"
@@ -21,10 +22,10 @@ App::App()
                   sf::Style::Close);
   setupUI();
 
-  m_scene.createObject<sim::CircleMolecule>(Vec(),
+  m_scene.createObject<sim::CircleMolecule>(Vec(10, 10),
                                             Transform(Vec(100, 200),
                                                       Vec(100, 100)));
-  m_scene.createObject<sim::SquareMolecule>(2, Vec(),
+  m_scene.createObject<sim::SquareMolecule>(2, Vec(5, 2),
                                             Transform(Vec(400, 300),
                                                       Vec(200, 200)));
 }
@@ -58,6 +59,7 @@ void App::run()
 void App::runMainLoop()
 {
   sf::Event event;
+  sf::Clock clock;
 
 
   while (m_window.isOpen())
@@ -83,7 +85,7 @@ void App::runMainLoop()
     }
 
     m_window.clear();
-    m_scene.updateObjects(0);
+    m_scene.updateObjects(clock.restart().asSeconds());
     m_scene.drawAll(*m_canvas);
     m_widgetTree->draw(m_window,
                        math::Transform(math::Vec(0, 0),

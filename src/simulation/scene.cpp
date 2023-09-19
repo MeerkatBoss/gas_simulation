@@ -1,5 +1,6 @@
 #include "simulation/scene.h"
 #include <cstddef>
+#include "simulation/movable.h"
 #include "simulation/scene_object.h"
 
 namespace sim
@@ -26,6 +27,26 @@ void Scene::drawAll(ui::RenderWindow& window) const
 }
 
 void Scene::updateObjects(double delta_time_sec)
+{
+  moveObjects(delta_time_sec);
+  collectDeadObjects();
+}
+
+void Scene::moveObjects(double delta_time_sec)
+{
+  for (size_t idx = 0; idx < m_objects.getSize(); ++idx)
+  {
+    if (!m_objects[idx]->isMovable())
+    {
+      continue;
+    }
+
+    Movable* movable = m_objects[idx]->asMovable();
+    m_objects[idx]->transform().move(movable->velocity() * delta_time_sec);
+  }
+}
+
+void Scene::collectDeadObjects()
 {
   for (size_t idx = 0; idx < m_objects.getSize(); ++idx)
   {

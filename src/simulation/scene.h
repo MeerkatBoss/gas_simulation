@@ -66,6 +66,8 @@ private:
   util::DynArray<SceneObject*> m_objects;
   ReactionBuilder m_reactionBuilder;
 
+  void moveObjects(double delta_time_sec);
+  void collectDeadObjects();
   void compactObjectStorage();
 
 };
