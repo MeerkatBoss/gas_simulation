@@ -55,6 +55,11 @@ public:
     }
   }
 
+  ~DynArray()
+  {
+    delete[] m_data;
+  }
+
   void pushBack(const TElem& elem)
   {
     tryGrow();
