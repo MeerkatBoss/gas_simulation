@@ -40,7 +40,11 @@ struct BoundingBox
 class SceneObject
 {
 public:
-  SceneObject(math::Transform transform) : m_transform(transform) {}
+  SceneObject(math::Transform transform) :
+    m_transform(transform),
+    m_dead(false)
+  {
+  }
 
   const math::Transform& transform() const { return m_transform; }
         math::Transform& transform()       { return m_transform; }
@@ -65,10 +69,16 @@ public:
 
   virtual void draw(ui::RenderWindow& window) const = 0;
 
+  void kill() { m_dead = true; }
+  bool isDead() const { return m_dead; }
+
   virtual ~SceneObject() = default;
+protected:
+  virtual void _kill() { return; }
 
 private:
   math::Transform m_transform;
+  bool            m_dead;
 };
 
 } // namespace sim

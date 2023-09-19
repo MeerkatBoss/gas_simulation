@@ -13,6 +13,8 @@
 #define __APP_H
 
 #include <SFML/Graphics.hpp>
+#include "simulation/scene.h"
+#include "ui/render_window.h"
 #include "ui/widget.h"
 
 class App
@@ -26,9 +28,12 @@ public:
 
   void run(void);
 private:
-  sf::RenderWindow m_window;
-  ui::Widget*      m_widgetTree;
+  sf::RenderWindow  m_window;
+  ui::Widget*       m_widgetTree;
+  ui::RenderWindow* m_canvas;
+  sim::Scene        m_scene;
 
+  void setupUI();
 
   void runMainLoop(void);
 };
