@@ -5,6 +5,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include "math/transform.h"
+#include "simulation/molecule_controller.h"
 #include "simulation/scene_object.h"
 #include "ui/render_window.h"
 #include "ui/widget.h"
@@ -12,7 +13,8 @@
 #include "simulation/circle_molecule.h"
 #include "simulation/square_molecule.h"
 
-App::App()
+App::App() :
+  m_moleculeController(m_scene, 100, math::Point(500, 100), math::Vec(50, 70))
 {
   using math::Vec;
   using math::Transform;
@@ -22,12 +24,14 @@ App::App()
                   sf::Style::Close);
   setupUI();
 
+  /*
   m_scene.createObject<sim::CircleMolecule>(Vec(10, 10),
                                             Transform(Vec(100, 200),
                                                       Vec(100, 100)));
   m_scene.createObject<sim::SquareMolecule>(2, Vec(5, 2),
                                             Transform(Vec(400, 300),
                                                       Vec(200, 200)));
+  */
 }
 
 void App::setupUI()
@@ -61,6 +65,7 @@ void App::runMainLoop()
   sf::Event event;
   sf::Clock clock;
 
+  double seconds = 0;
 
   while (m_window.isOpen())
   {
@@ -83,9 +88,17 @@ void App::runMainLoop()
     {
       break;
     }
+    double delta_time = clock.restart().asSeconds();
+    seconds += delta_time;
+
+    while (seconds > 1)
+    {
+      --seconds;
+      m_moleculeController.spawnSquare();
+    }
 
     m_window.clear();
-    m_scene.updateObjects(clock.restart().asSeconds());
+    m_scene.updateObjects(delta_time);
     m_scene.drawAll(*m_canvas);
     m_widgetTree->draw(m_window,
                        math::Transform(math::Vec(0, 0),

@@ -17,9 +17,7 @@
 #include "ui/render_window.h"
 
 namespace sim
-{
-
-struct BoundingBox
+{ struct BoundingBox
 {
   double xMax;
   double xMin;
@@ -64,6 +62,10 @@ public:
   virtual bool isMovable() const { return false; }
 
   virtual Movable* asMovable() { return nullptr; }
+
+  virtual bool isTickable() const { return false; }
+
+  virtual void updateTick([[maybe_unused]] double delta_time_sec) { return; }
 
   const Movable* asMovable() const
   {

@@ -36,6 +36,13 @@ public:
 
   virtual Movable* asMovable() override { return this; }
 
+  virtual bool isTickable() const override { return true; }
+
+  virtual void updateTick(double delta_time_seconds) override
+  {
+    transform().move(velocity() * delta_time_seconds);
+  }
+
   virtual void addToReaction(ReactionBuilder& builder) const = 0;
 
   virtual void collide(SceneObject& other) const override;

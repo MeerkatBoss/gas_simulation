@@ -37,17 +37,22 @@ public:
   }
 
   template<typename TObject>
-  size_t addObject(const TObject& object)
+  TObject* addObject(const TObject& object)
   {
-    m_objects.pushBack(new TObject(object));
-    return m_objects.back()->getId();
+    return createObject<TObject>(object);
+  }
+
+  void captureObject(SceneObject* object)
+  {
+    m_objects.pushBack(object);
   }
 
   template<typename TObject, typename... TArgs>
-  size_t createObject(const TArgs&... args)
+  TObject* createObject(const TArgs&... args)
   {
-    m_objects.pushBack(new TObject(args...));
-    return m_objects.back()->getId();
+    TObject* created = new TObject(args...);
+    m_objects.pushBack(created);
+    return created;
   }
 
   SceneObject* findObject(size_t id);
@@ -66,7 +71,7 @@ private:
   util::DynArray<SceneObject*> m_objects;
   ReactionBuilder m_reactionBuilder;
 
-  void moveObjects(double delta_time_sec);
+  void tickObjects(double delta_time_sec);
   void collectDeadObjects();
   void compactObjectStorage();
 
