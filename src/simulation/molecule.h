@@ -45,7 +45,7 @@ public:
 
   virtual void addToReaction(ReactionBuilder& builder) const = 0;
 
-  virtual void collide(SceneObject& other) const override;
+  virtual void collide(SceneObject& other) override;
 
   virtual ~Molecule() = default;
 };

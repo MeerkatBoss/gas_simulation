@@ -3,7 +3,7 @@
 namespace sim
 {
 
-void Molecule::collide(SceneObject& other) const
+void Molecule::collide(SceneObject& other)
 {
   using math::Vec;
 
@@ -22,6 +22,8 @@ void Molecule::collide(SceneObject& other) const
 
   otherMovable->velocity() = 
     v2 - (2 * m1) / (m1 + m2) * (v2 - v1).projectOn(delta);
+  velocity() = 
+    v1 - (2 * m2) / (m1 + m2) * (v1 - v2).projectOn(delta);
 }
 
 } // namespace sim

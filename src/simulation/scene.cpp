@@ -35,7 +35,6 @@ void Scene::updateObjects(double delta_time_sec)
       if (m_objects[first]->intersects(*m_objects[second]))
       {
         m_objects[first]->collide(*m_objects[second]);
-        m_objects[second]->collide(*m_objects[first]);
       }
     }
   }

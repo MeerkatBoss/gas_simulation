@@ -57,7 +57,7 @@ public:
 
   size_t getId() const { return m_objectId; }
 
-  virtual void collide(SceneObject& other) const = 0;
+  virtual void collide(SceneObject& other) = 0;
 
   virtual bool isMovable() const { return false; }
 
