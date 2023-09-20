@@ -14,7 +14,7 @@
 
 #include "math/transform.h"
 #include "simulation/movable.h"
-#include "ui/render_window.h"
+#include "ui/canvas.h"
 
 namespace sim
 { struct BoundingBox
@@ -72,7 +72,7 @@ public:
     return const_cast<SceneObject*>(this)->asMovable();
   }
 
-  virtual void draw(ui::RenderWindow& window) const = 0;
+  virtual void draw(ui::Canvas& window) const = 0;
 
   void kill() { m_dead = true; }
   bool isDead() const { return m_dead; }

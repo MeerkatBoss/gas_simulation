@@ -7,7 +7,7 @@
 #include "math/transform.h"
 #include "simulation/molecule_controller.h"
 #include "simulation/scene_object.h"
-#include "ui/render_window.h"
+#include "ui/canvas.h"
 #include "ui/widget.h"
 
 #include "simulation/circle_molecule.h"
@@ -39,8 +39,8 @@ void App::setupUI()
   using math::Vec;
   using math::Transform;
 
-  ui::RenderWindow* canvas =
-      new ui::RenderWindow(App::windowWidth, App::windowHeight);
+  ui::Canvas* canvas =
+      new ui::Canvas(App::windowWidth, App::windowHeight);
 
   m_canvas     = canvas;
   m_widgetTree = canvas;

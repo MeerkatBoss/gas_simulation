@@ -15,7 +15,7 @@
 #include <cstddef>
 #include "simulation/scene_object.h"
 #include "simulation/reaction_builder.h"
-#include "ui/render_window.h"
+#include "ui/canvas.h"
 #include "util/linked_list.h"
 
 namespace sim
@@ -62,7 +62,7 @@ public:
     return const_cast<Scene*>(this)->findObject(id);
   }
 
-  void drawAll(ui::RenderWindow& window) const;
+  void drawAll(ui::Canvas& window) const;
 
   void updateObjects(double delta_time_sec);
 

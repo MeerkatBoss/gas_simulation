@@ -30,7 +30,7 @@ public:
 
   BoundingBox getBoundingBox() const override;
 
-  void draw(ui::RenderWindow& window) const override;
+  void draw(ui::Canvas& window) const override;
 
   ~CircleMolecule() override = default;
 };

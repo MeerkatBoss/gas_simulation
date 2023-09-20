@@ -17,7 +17,7 @@ SceneObject* Scene::findObject(size_t id)
   return nullptr;
 }
 
-void Scene::drawAll(ui::RenderWindow& window) const
+void Scene::drawAll(ui::Canvas& window) const
 {
   window.renderTexture().clear(sf::Color::White);
   for (size_t idx = 0; idx < m_objects.getSize(); ++idx)

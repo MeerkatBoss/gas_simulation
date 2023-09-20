@@ -29,7 +29,7 @@ BoundingBox SquareMolecule::getBoundingBox() const
   };
 }
 
-void SquareMolecule::draw(ui::RenderWindow& window) const
+void SquareMolecule::draw(ui::Canvas& window) const
 {
   sf::RectangleShape square;
   square.setSize(math::Vec(1, 1));

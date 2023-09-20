@@ -1,12 +1,11 @@
-#include "ui/render_window.h"
-#include <SFML/Graphics/Sprite.hpp>
+#include "ui/canvas.h"
 #include "math/transform.h"
 
 namespace ui
 {
 
-void RenderWindow::draw(      sf::RenderTarget& draw_target,
-                        const math::Transform&  parent_transform)
+void Canvas::draw(      sf::RenderTarget& draw_target,
+                  const math::Transform&  parent_transform)
 {
   math::Transform realTransform = transform()*parent_transform;
 

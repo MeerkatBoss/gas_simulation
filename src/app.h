@@ -15,7 +15,7 @@
 #include <SFML/Graphics.hpp>
 #include "simulation/molecule_controller.h"
 #include "simulation/scene.h"
-#include "ui/render_window.h"
+#include "ui/canvas.h"
 #include "ui/widget.h"
 
 class App
@@ -31,7 +31,7 @@ public:
 private:
   sf::RenderWindow        m_window;
   ui::Widget*             m_widgetTree;
-  ui::RenderWindow*       m_canvas;
+  ui::Canvas*             m_canvas;
   sim::Scene              m_scene;
   sim::MoleculeController m_moleculeController;
 

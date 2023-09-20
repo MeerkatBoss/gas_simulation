@@ -29,7 +29,7 @@ BoundingBox CircleMolecule::getBoundingBox() const
   };
 }
 
-void CircleMolecule::draw(ui::RenderWindow& window) const
+void CircleMolecule::draw(ui::Canvas& window) const
 {
   sf::CircleShape circle;
   circle.setRadius(0.5);

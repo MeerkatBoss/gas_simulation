@@ -19,10 +19,10 @@
 namespace ui
 {
 
-class RenderWindow : public Widget
+class Canvas : public Widget
 {
 public:
-  RenderWindow(size_t width_px, size_t height_px,
+  Canvas(size_t width_px, size_t height_px,
                const math::Transform& transform = math::Transform()) :
     Widget(transform)
   {
