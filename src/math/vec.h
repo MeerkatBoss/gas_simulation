@@ -94,7 +94,7 @@ struct Vec
     {
       return Vec(NAN, NAN);
     }
-    const double scale = dotProduct(*this, other) / other.length();
+    const double scale = dotProduct(*this, other) / dotProduct(other, other);
     return other * scale;
   }
 
