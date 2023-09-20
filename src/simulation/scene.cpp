@@ -28,6 +28,18 @@ void Scene::drawAll(ui::RenderWindow& window) const
 
 void Scene::updateObjects(double delta_time_sec)
 {
+  for (size_t first = 0; first < m_objects.getSize(); ++first)
+  {
+    for (size_t second = first + 1; second < m_objects.getSize(); ++second)
+    {
+      if (m_objects[first]->intersects(*m_objects[second]))
+      {
+        m_objects[first]->collide(*m_objects[second]);
+        m_objects[second]->collide(*m_objects[first]);
+      }
+    }
+  }
+
   tickObjects(delta_time_sec);
   collectDeadObjects();
 }

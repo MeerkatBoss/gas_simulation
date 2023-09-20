@@ -50,7 +50,7 @@ public:
 
   virtual BoundingBox getBoundingBox() const = 0;
 
-  bool intersects(const SceneObject& other) const
+  virtual bool intersects(const SceneObject& other) const
   {
     return getBoundingBox().hasIntersectionWith(other.getBoundingBox());
   }

@@ -18,8 +18,8 @@ BoundingBox SquareMolecule::getBoundingBox() const
   const math::Vec center = transform().getPosition();
   const math::Vec scale  = transform().getScale();
 
-  const double extent_x = (fabs(scale.x * cosine) + fabs(scale.y * cosine)) / 2;
-  const double extent_y = (fabs(scale.x * sine)   + fabs(scale.y * sine))   / 2;
+  const double extent_x = (fabs(scale.x * cosine) + fabs(scale.y * sine))   / 2;
+  const double extent_y = (fabs(scale.x * sine)   + fabs(scale.y * cosine)) / 2;
 
   return BoundingBox {
     .xMax = center.x + extent_x,

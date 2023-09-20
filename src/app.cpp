@@ -14,7 +14,7 @@
 #include "simulation/square_molecule.h"
 
 App::App() :
-  m_moleculeController(m_scene, 100, math::Point(500, 100), math::Vec(50, 70))
+  m_moleculeController(m_scene, 100, math::Point(500, 100), math::Vec(70, 90))
 {
   using math::Vec;
   using math::Transform;
@@ -67,6 +67,12 @@ void App::runMainLoop()
 
   double seconds = 0;
 
+  m_scene.createObject<sim::SquareMolecule>(10, math::Vec(),
+                                            math::Transform(
+                                              math::Point(500, 300),
+                                              math::Vec(200, 200)));
+  m_moleculeController.spawnSquare();
+
   while (m_window.isOpen())
   {
     while (m_window.pollEvent(event))
@@ -94,10 +100,11 @@ void App::runMainLoop()
     while (seconds > 1)
     {
       --seconds;
-      m_moleculeController.spawnSquare();
+      // m_moleculeController.spawnSquare();
     }
 
     m_window.clear();
+    m_moleculeController.runReactions();
     m_scene.updateObjects(delta_time);
     m_scene.drawAll(*m_canvas);
     m_widgetTree->draw(m_window,

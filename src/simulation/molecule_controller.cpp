@@ -22,6 +22,10 @@ void MoleculeController::runReactions()
       {
         continue;
       }
+      if(!m_molecules[first]->intersects(*m_molecules[second]))
+      {
+        continue;
+      }
       
       m_reactionBuilder.addMolecule(*m_molecules[first]);
       m_reactionBuilder.addMolecule(*m_molecules[second]);
