@@ -29,13 +29,19 @@ BoundingBox CircleMolecule::getBoundingBox() const
   };
 }
 
-void CircleMolecule::draw(ui::Canvas& window) const
+void CircleMolecule::draw(ui::Canvas& window,
+                          const math::Transform& parent_transform) const
 {
+  math::Transform realTransform = transform() * parent_transform;
+
   sf::CircleShape circle;
   circle.setRadius(0.5);
-  circle.setPosition(transform().getPosition());
-  circle.setScale(transform().getScale());
+  circle.setPosition(realTransform.getPosition());
+  circle.setScale(realTransform.getScale());
   circle.setFillColor(sf::Color::Yellow);
+  circle.setOutlineThickness(0.05);
+  circle.setOutlineColor(sf::Color::Black);
+
   window.renderTexture().draw(circle);
 }
 

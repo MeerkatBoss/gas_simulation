@@ -17,7 +17,9 @@
 #include "math/vec.h"
 #include "math/transform.h"
 #include "simulation/circle_molecule.h"
+#include "simulation/square_molecule.h"
 #include "simulation/scene.h"
+#include "simulation/reaction_builder.h"
 #include "util/dyn_array.h"
 
 namespace sim

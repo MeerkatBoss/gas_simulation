@@ -13,10 +13,10 @@
 #define __SIMULATION_SCENE_H
 
 #include <cstddef>
+#include "math/transform.h"
 #include "simulation/scene_object.h"
-#include "simulation/reaction_builder.h"
 #include "ui/canvas.h"
-#include "util/linked_list.h"
+#include "util/dyn_array.h"
 
 namespace sim
 {
@@ -62,14 +62,13 @@ public:
     return const_cast<Scene*>(this)->findObject(id);
   }
 
-  void drawAll(ui::Canvas& window) const;
+  void drawAll(      ui::Canvas&      window,
+               const math::Transform& parent_transform) const;
 
   void updateObjects(double delta_time_sec);
 
 private:
-
   util::DynArray<SceneObject*> m_objects;
-  ReactionBuilder m_reactionBuilder;
 
   void tickObjects(double delta_time_sec);
   void collectDeadObjects();

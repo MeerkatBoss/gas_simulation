@@ -1,5 +1,6 @@
-#include "simulation/circle_molecule.h"
+#include "simulation/square_molecule.h"
 
+#include "math/transform.h"
 #include "simulation/reaction_builder.h"
 
 namespace sim
@@ -29,14 +30,20 @@ BoundingBox SquareMolecule::getBoundingBox() const
   };
 }
 
-void SquareMolecule::draw(ui::Canvas& window) const
+void SquareMolecule::draw(ui::Canvas& window,
+                          const math::Transform& parent_transform) const
 {
+  math::Transform realTransform = parent_transform * transform();
+
   sf::RectangleShape square;
   square.setSize(math::Vec(1, 1));
   square.setOrigin(math::Vec(0.5, 0.5));
-  square.setPosition(transform().getPosition());
-  square.setScale(transform().getScale());
+  square.setPosition(realTransform.getPosition());
+  square.setScale(realTransform.getScale());
   square.setFillColor(sf::Color::Red);
+  square.setOutlineThickness(0.05);
+  square.setOutlineColor(sf::Color::Black);
+
   window.renderTexture().draw(square);
 }
 

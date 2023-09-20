@@ -14,7 +14,7 @@
 #include "simulation/square_molecule.h"
 
 App::App() :
-  m_moleculeController(m_scene, 100, math::Point(500, 100), math::Vec(70, 90))
+  m_moleculeController(m_scene, 2, math::Point(3, 1), math::Vec(2, 1))
 {
   using math::Vec;
   using math::Transform;
@@ -37,13 +37,16 @@ App::App() :
 void App::setupUI()
 {
   using math::Vec;
+  using math::Point;
   using math::Transform;
 
   ui::Canvas* canvas =
       new ui::Canvas(App::windowWidth, App::windowHeight);
 
-  m_canvas     = canvas;
-  m_widgetTree = canvas;
+  ui::SceneView* scene_view =
+      new ui::SceneView(m_scene, canvas, 50, Point(2, 1));
+
+  m_widgetTree = scene_view;
 }
 
 App::~App()
@@ -69,8 +72,8 @@ void App::runMainLoop()
 
   m_scene.createObject<sim::SquareMolecule>(10, math::Vec(),
                                             math::Transform(
-                                              math::Point(500, 300),
-                                              math::Vec(200, 200)));
+                                              math::Point(6, 3),
+                                              math::Vec(3, 3)));
   m_moleculeController.spawnSquare();
 
   while (m_window.isOpen())
@@ -106,7 +109,7 @@ void App::runMainLoop()
     m_window.clear();
     m_moleculeController.runReactions();
     m_scene.updateObjects(delta_time);
-    m_scene.drawAll(*m_canvas);
+
     m_widgetTree->draw(m_window,
                        math::Transform(math::Vec(0, 0),
                                        math::Vec(windowWidth, windowHeight)));

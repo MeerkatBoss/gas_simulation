@@ -72,7 +72,8 @@ public:
     return const_cast<SceneObject*>(this)->asMovable();
   }
 
-  virtual void draw(ui::Canvas& window) const = 0;
+  virtual void draw(ui::Canvas& window, const math::Transform& parent_transform)
+    const = 0;
 
   void kill() { m_dead = true; }
   bool isDead() const { return m_dead; }

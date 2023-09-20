@@ -9,6 +9,7 @@ void Molecule::collide(SceneObject& other)
 
   if (!other.isMovable())
   {
+    other.collide(*this);
     return;
   }
 

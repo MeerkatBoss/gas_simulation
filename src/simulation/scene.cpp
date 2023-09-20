@@ -17,12 +17,13 @@ SceneObject* Scene::findObject(size_t id)
   return nullptr;
 }
 
-void Scene::drawAll(ui::Canvas& window) const
+void Scene::drawAll(      ui::Canvas&      window,
+                    const math::Transform& parent_transform) const
 {
   window.renderTexture().clear(sf::Color::White);
   for (size_t idx = 0; idx < m_objects.getSize(); ++idx)
   {
-    m_objects[idx]->draw(window);
+    m_objects[idx]->draw(window, parent_transform);
   }
 }
 

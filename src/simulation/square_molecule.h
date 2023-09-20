@@ -12,6 +12,7 @@
 #ifndef __SIMULATION_SQUARE_MOLECULE_H
 #define __SIMULATION_SQUARE_MOLECULE_H
 
+#include "math/transform.h"
 #include "simulation/molecule.h"
 
 namespace sim
@@ -31,7 +32,8 @@ public:
 
   BoundingBox getBoundingBox() const override;
 
-  void draw(ui::Canvas& window) const override;
+  void draw(ui::Canvas& window,
+            const math::Transform& parent_transform) const override;
 
   ~SquareMolecule() override = default;
 };

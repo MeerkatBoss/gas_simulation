@@ -7,7 +7,7 @@ namespace ui
 void Canvas::draw(      sf::RenderTarget& draw_target,
                   const math::Transform&  parent_transform)
 {
-  math::Transform realTransform = transform()*parent_transform;
+  math::Transform realTransform = parent_transform * transform();
 
   sf::Sprite sprite(m_renderTexture.getTexture());
   sprite.setRotation(realTransform.getAngleDeg());
