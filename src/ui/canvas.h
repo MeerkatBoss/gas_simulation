@@ -29,7 +29,9 @@ public:
     m_renderTexture.create(width_px, height_px);
   }
 
-  void handleMouseEvent(const MouseEvent&) override { return; };
+  virtual void handleMouseEvent(
+              const MouseEvent&,
+              const math::Transform& = math::Transform()) override { return; }
 
   void draw(      sf::RenderTarget& draw_target,
             const math::Transform&  parent_transform = math::Transform())

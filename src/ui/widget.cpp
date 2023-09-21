@@ -1,4 +1,5 @@
 #include "ui/widget.h"
+#include "math/transform.h"
 
 namespace ui
 {
@@ -132,6 +133,17 @@ static MouseEvent getMouseHoldEvent(const sf::RenderWindow& sfml_window,
     .position = Vec(coords.x, coords.y)
   };
 
+}
+
+bool Widget::containsPoint(
+                  const math::Point& point,
+                  const math::Transform&  parent_transform)
+{
+  math::Transform realTransform = parent_transform * transform();
+  math::Point localPoint = (realTransform.getInverse() * point);
+
+  return 0 < localPoint.x && localPoint.x < 1 &&
+         0 < localPoint.y && localPoint.y < 1;
 }
 
 } // namespace ui

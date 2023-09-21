@@ -15,6 +15,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "math/transform.h"
+#include "math/vec.h"
 
 namespace ui
 {
@@ -52,16 +53,24 @@ public:
   {
   }
 
+
   const math::Transform& transform() const { return m_transform; }
         math::Transform& transform()       { return m_transform; }
 
-  virtual void handleMouseEvent(const MouseEvent& event) = 0;
+  virtual void handleMouseEvent(
+              const MouseEvent& event,
+              const math::Transform&  parent_transform = math::Transform()) = 0;
 
   virtual void draw(
                     sf::RenderTarget& draw_target,
               const math::Transform&  parent_transform = math::Transform()) = 0;
 
   virtual ~Widget() = default;
+protected:
+  virtual bool containsPoint(
+                  const math::Point& point,
+                  const math::Transform&  parent_transform = math::Transform());
+                          
 private:
   math::Transform m_transform;
 };

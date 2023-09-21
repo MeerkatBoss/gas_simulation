@@ -57,9 +57,12 @@ public:
     }
   }
 
-  virtual void handleMouseEvent(const MouseEvent& event) override
+  virtual void handleMouseEvent(
+              const MouseEvent& event,
+              const math::Transform&  parent_transform = math::Transform())
+    override
   {
-    return m_canvas->handleMouseEvent(event);
+    return m_canvas->handleMouseEvent(event, parent_transform);
   }
 
   virtual void draw(

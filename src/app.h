@@ -30,6 +30,8 @@ public:
 
   void run(void);
 private:
+  sf::Texture m_buttonTexture;
+
   sf::RenderWindow        m_window;
   ui::Widget*             m_widgetTree;
   sim::Scene              m_scene;

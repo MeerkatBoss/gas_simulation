@@ -110,6 +110,11 @@ public:
     return Transform(*this)*=other;
   }
 
+  Vec operator*(const Vec& other) const
+  {
+    return m_transform * other;
+  }
+
   Transform getInverse() const
   {
     return Transform(m_transform.getInverse());
