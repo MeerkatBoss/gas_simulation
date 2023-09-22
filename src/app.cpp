@@ -8,11 +8,12 @@
 #include "ui/canvas.h"
 #include "ui/widget.h"
 #include "ui/button.h"
+#include "ui/slider.h"
 
 #include "simulation/circle_molecule.h"
 #include "simulation/square_molecule.h"
 
-class DebugController : public ui::ButtonController
+class DebugController : public ui::ButtonController, public ui::SliderController
 {
 public:
   void onClick() override
@@ -29,6 +30,20 @@ public:
   {
     puts("DEBUG: Released!");
   }
+
+  void onSetVal(double val) override
+  {
+    printf("DEBUG: Set value %lg\n", m_value);
+    m_value = val;
+  }
+
+  double getMaxVal() override { return 10; }
+  double getMinVal() override { return 2; }
+  double getCurVal() override { return m_value; }
+
+
+private:
+  double m_value = 2;
 };
 
 static DebugController g_debugController;
@@ -43,6 +58,8 @@ App::App() :
                   "Gas simulation",
                   sf::Style::Close);
   m_buttonTexture.loadFromFile("assets/button.png");
+  m_sliderBack.loadFromFile("assets/slider_back.png");
+  m_sliderHandle.loadFromFile("assets/slider_handle.png");
   setupUI();
 
   /*
@@ -69,8 +86,12 @@ void App::setupUI()
 */
 
   ui::Widget* root =
+    /*
       new ui::Button(g_debugController, m_buttonTexture,
                      Transform(Point(0.25, 0.25), Vec(0.5, 0.5)));
+    */
+      new ui::Slider(g_debugController, m_sliderBack, m_sliderHandle,
+                     0.9, Point(0.05, 0.2), -45);
 
   m_widgetTree = root;
 }

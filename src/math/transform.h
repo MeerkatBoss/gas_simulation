@@ -28,8 +28,8 @@ public:
             double        angle_deg = 0) :
     m_transform(
         Matrix::fromTranslation(position)*
-        Matrix::fromScale(scale)*
-        Matrix::fromAngle(angle_deg))
+        Matrix::fromAngle(angle_deg) *
+        Matrix::fromScale(scale))
   {
   }
 
@@ -52,8 +52,8 @@ public:
   {
     const int x_sign = m_transform[0][0] > 0 ? 1 : -1;
     const int y_sign = m_transform[1][1] > 0 ? 1 : -1;
-    const double x = x_sign * hypot(m_transform[0][0], m_transform[0][1]);
-    const double y = y_sign * hypot(m_transform[1][0], m_transform[1][1]);
+    const double x = x_sign * hypot(m_transform[0][0], m_transform[1][0]);
+    const double y = y_sign * hypot(m_transform[0][1], m_transform[1][1]);
     return Vec(x, y);
   }
   void setScale(const Vec& scale)
@@ -67,21 +67,22 @@ public:
 
   double getAngleDeg() const
   {
-    return atan2(-m_transform[0][1], m_transform[0][0]);
+    const Vec scale = getScale();
+    return atan2(-m_transform[0][1]/scale.y, m_transform[0][0]/scale.x) * 180 / M_PI;
   }
 
 
   Vec right() const
   {
-    const double x_scale = fabs(getScale().x);
-    return Vec(m_transform[0][0]/x_scale, m_transform[1][0]/x_scale);
+    const Vec scale = getScale();
+    return Vec(m_transform[0][0]/scale.x, m_transform[1][0]/scale.x);
   }
   Vec left() const { return -right(); }
 
   Vec up() const
   {
-    const double y_scale = fabs(getScale().y);
-    return Vec(m_transform[0][1]/y_scale, m_transform[1][1]/y_scale);
+    const Vec scale = getScale();
+    return Vec(m_transform[0][1]/scale.y, m_transform[1][1]/scale.y);
   }
   Vec down() const { return -up(); }
 

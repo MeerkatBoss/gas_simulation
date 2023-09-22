@@ -13,6 +13,7 @@
 #define __APP_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include "simulation/molecule_controller.h"
 #include "simulation/scene.h"
 #include "ui/scene_view.h"
@@ -31,6 +32,8 @@ public:
   void run(void);
 private:
   sf::Texture m_buttonTexture;
+  sf::Texture m_sliderBack;
+  sf::Texture m_sliderHandle;
 
   sf::RenderWindow        m_window;
   ui::Widget*             m_widgetTree;

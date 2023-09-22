@@ -1,4 +1,6 @@
 #include "ui/widget.h"
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include "math/transform.h"
 
 namespace ui
@@ -106,13 +108,17 @@ static MouseEvent getMouseReleaseEvent(const sf::RenderWindow& sfml_window,
   {
     s_pressedButtons[size_t(button)] = true;
   }
+  /*
   sf::Vector2f coords = sfml_window.mapPixelToCoords(sf::Vector2i(
                                                       sfml_event.x,
                                                       sfml_event.y));
+  */
+
+  sf::Vector2i pos = sf::Mouse::getPosition(sfml_window);
   return MouseEvent{
     .type     = MouseEvent::Type::Release,
     .button   = button,
-    .position = Vec(coords.x, coords.y)
+    .position = Vec(pos.x, pos.y)
   };
 }
 
