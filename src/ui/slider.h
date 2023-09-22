@@ -36,7 +36,9 @@ public:
   Slider(SliderController& controller,
          const sf::Texture& back_texture,
          const sf::Texture& handle_texture,
-         double length, math::Vec position = math::Vec(), double angle = -90) :
+         double length = 1,
+         math::Vec position = math::Vec(),
+         double angle = -90) :
     Widget(math::Transform(
           position,
           math::Vec(

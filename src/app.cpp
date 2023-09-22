@@ -9,6 +9,7 @@
 #include "ui/widget.h"
 #include "ui/button.h"
 #include "ui/slider.h"
+#include "ui/widget_group.h"
 
 #include "simulation/circle_molecule.h"
 #include "simulation/square_molecule.h"
@@ -46,7 +47,7 @@ private:
   double m_value = 2;
 };
 
-static DebugController g_debugController;
+static DebugController g_debugController = DebugController();
 
 App::App() :
   m_moleculeController(m_scene, 2, math::Point(3, 1), math::Vec(2, 1))
@@ -77,22 +78,38 @@ void App::setupUI()
   using math::Vec;
   using math::Point;
   using math::Transform;
-/*
-  ui::Canvas* canvas =
-      new ui::Canvas(App::windowWidth, App::windowHeight);
 
+  ui::WidgetGroup* root = new ui::WidgetGroup();
+
+  ui::Canvas* canvas =
+      new ui::Canvas(App::windowWidth / 2, App::windowHeight,
+          Transform(Point(0, 0), Vec(.5, 1)));
   ui::SceneView* scene_view =
       new ui::SceneView(m_scene, canvas, 50, Point(2, 1));
-*/
 
-  ui::Widget* root =
-    /*
-      new ui::Button(g_debugController, m_buttonTexture,
-                     Transform(Point(0.25, 0.25), Vec(0.5, 0.5)));
-    */
-      new ui::Slider(g_debugController, m_sliderBack, m_sliderHandle,
-                     0.9, Point(0.05, 0.2), -45);
+  root->captureWidget(scene_view);
 
+  ui::WidgetGroup* ui_root
+    = new ui::WidgetGroup(Transform(
+                          Point(.5, 0), Vec(.5, 1)));
+  ui::Widget* button1 = new ui::Button(g_debugController, m_buttonTexture,
+                                       0.5, Point(0, 0));
+  ui::Widget* button2 = new ui::Button(g_debugController, m_buttonTexture,
+                                       0.5, Point(0.5, 0));
+  ui::Widget* slider = new ui::Slider(g_debugController,
+                                 m_sliderBack, m_sliderHandle,
+                                 1, Point(0, .5));
+  ui_root->captureWidget(button1);
+  ui_root->captureWidget(button2);
+  ui_root->captureWidget(slider);
+
+  root->captureWidget(ui_root);
+  /*
+  root->createWidget<ui::Button>(g_debugController, m_buttonTexture);
+  root->createWidget<ui::Slider>(g_debugController,
+                                 m_sliderBack, m_sliderHandle,
+                                 1, Point(0, .5));
+  */
   m_widgetTree = root;
 }
 

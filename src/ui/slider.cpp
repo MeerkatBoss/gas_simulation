@@ -76,8 +76,8 @@ void Slider::draw(
   m_background.setPosition(realTransform.getPosition());
 
   math::Vec targetScale = realTransform.getScale();
-  targetScale.x /= m_background.getTexture()->getSize().x;
   targetScale.y /= m_background.getTexture()->getSize().y;
+  targetScale.x = targetScale.y;
   m_background.setScale(targetScale);
 
   const double handleHeight =

@@ -40,8 +40,11 @@ void Button::draw(
   m_sprite.setPosition(realTransform.getPosition());
 
   math::Vec targetScale = realTransform.getScale();
+
   targetScale.x /= m_sprite.getTexture()->getSize().x;
-  targetScale.y /= m_sprite.getTexture()->getSize().y;
+  targetScale.y = targetScale.x;
+  
+  // targetScale.y /= m_sprite.getTexture()->getSize().y;
   m_sprite.setScale(targetScale);
 
   draw_target.draw(m_sprite);

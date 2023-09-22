@@ -13,6 +13,7 @@
 #define __UI_BUTTON_H
 
 #include <SFML/Graphics/Texture.hpp>
+#include "math/transform.h"
 #include "ui/widget.h"
 namespace ui
 {
@@ -32,8 +33,14 @@ class Button : public Widget
 public:
   Button(ButtonController& controller,
          const sf::Texture& texture,
-         const math::Transform& transform = math::Transform()) :
-    Widget(transform),
+         double width = 1,
+         const math::Point& position = math::Point(),
+         double angle = 0) :
+    Widget(math::Transform(
+            position,
+            math::Vec(width,
+                      width / texture.getSize().x * texture.getSize().y),
+            angle)),
     m_sprite(texture),
     m_controller(controller),
     m_pressed(false)
