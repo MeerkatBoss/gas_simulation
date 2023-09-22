@@ -5,6 +5,7 @@
 #include "math/transform.h"
 #include "simulation/molecule_controller.h"
 #include "simulation/scene_object.h"
+#include "simulation/wall.h"
 #include "ui/canvas.h"
 #include "ui/widget.h"
 #include "ui/button.h"
@@ -50,7 +51,7 @@ private:
 static DebugController g_debugController = DebugController();
 
 App::App() :
-  m_moleculeController(m_scene, 2, math::Point(3, 1), math::Vec(2, 1))
+  m_moleculeController(m_scene, 2, math::Point(3, 1), math::Vec(1, 5))
 {
   using math::Vec;
   using math::Transform;
@@ -134,10 +135,7 @@ void App::runMainLoop()
 
   double seconds = 0;
 
-  m_scene.createObject<sim::SquareMolecule>(10, math::Vec(),
-                                            math::Transform(
-                                              math::Point(6, 3),
-                                              math::Vec(3, 3)));
+  m_scene.createObject<sim::Wall>(math::Point(5, 13), 20);
   m_moleculeController.spawnSquare();
 
   math::Transform root = math::Transform(math::Vec(0, 0),
@@ -172,7 +170,7 @@ void App::runMainLoop()
     while (seconds > 1)
     {
       --seconds;
-      // m_moleculeController.spawnSquare();
+      m_moleculeController.spawnSquare();
     }
 
     m_window.clear();

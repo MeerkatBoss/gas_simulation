@@ -17,7 +17,9 @@
 #include "ui/canvas.h"
 
 namespace sim
-{ struct BoundingBox
+{
+
+struct BoundingBox
 {
   double xMax;
   double xMin;
@@ -38,7 +40,7 @@ namespace sim
 class SceneObject
 {
 public:
-  SceneObject(math::Transform transform) :
+  SceneObject(const math::Transform& transform) :
     m_transform(transform),
     m_dead(false),
     m_objectId(++s_idCounter)
