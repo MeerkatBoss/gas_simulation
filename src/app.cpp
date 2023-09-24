@@ -51,7 +51,7 @@ private:
 static DebugController g_debugController = DebugController();
 
 App::App() :
-  m_moleculeController(m_scene, 2, math::Point(3, 1), math::Vec(1, 5))
+  m_moleculeController(m_scene, 2, math::Point(3, 1), math::Vec(1, 3))
 {
   using math::Vec;
   using math::Transform;
@@ -164,7 +164,7 @@ void App::runMainLoop()
     {
       break;
     }
-    double delta_time = clock.restart().asSeconds();
+    double delta_time = clock.restart().asSeconds(); // clock.restart().asSeconds();
     seconds += delta_time;
 
     while (seconds > 1)
