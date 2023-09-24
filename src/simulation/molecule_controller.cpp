@@ -1,10 +1,23 @@
 #include "simulation/molecule_controller.h"
+
+#include <cstdio>
+#include <cstdlib>
+
 #include "simulation/circle_molecule.h"
 #include "simulation/molecule.h"
 #include "simulation/reaction_builder.h"
 
 namespace sim
 {
+
+math::Vec MoleculeController::getSpawnVelocity() const
+{
+  const double angle = (double(rand()) / RAND_MAX - 0.5) * 2 * m_spreadAngleDeg;
+  const double scale = (double(rand()) / RAND_MAX - 0.5) * 0.2 + 1;
+
+  return math::Transform(math::Vec(), math::Vec(scale, scale), angle)
+         * m_spawnVelocity;
+}
 
 void MoleculeController::runReactions()
 {

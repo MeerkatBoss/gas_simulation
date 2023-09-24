@@ -44,8 +44,9 @@ void Wall::draw(ui::Canvas& window, const math::Transform& parent_transform)
   sf::RectangleShape square;
   square.setSize(math::Vec(1, 1));
   square.setOrigin(math::Vec(0.5, 0.5));
-  square.setPosition(realTransform.getPosition());
+  square.setRotation(realTransform.getAngleDeg());
   square.setScale(realTransform.getScale());
+  square.setPosition(realTransform.getPosition());
   square.setFillColor(sf::Color::Black);
 
   window.renderTexture().draw(square);

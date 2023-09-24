@@ -51,7 +51,7 @@ private:
 static DebugController g_debugController = DebugController();
 
 App::App() :
-  m_moleculeController(m_scene, 2, math::Point(3, 1), math::Vec(1, 3))
+  m_moleculeController(m_scene)
 {
   using math::Vec;
   using math::Transform;
@@ -62,16 +62,22 @@ App::App() :
   m_buttonTexture.loadFromFile("assets/button.png");
   m_sliderBack.loadFromFile("assets/slider_back.png");
   m_sliderHandle.loadFromFile("assets/slider_handle.png");
-  setupUI();
 
-  /*
-  m_scene.createObject<sim::CircleMolecule>(Vec(10, 10),
-                                            Transform(Vec(100, 200),
-                                                      Vec(100, 100)));
-  m_scene.createObject<sim::SquareMolecule>(2, Vec(5, 2),
-                                            Transform(Vec(400, 300),
-                                                      Vec(200, 200)));
-  */
+  setupScene();
+  setupUI();
+}
+
+void App::setupScene()
+{
+  m_scene.createObject<sim::Wall>(math::Point(3, 13), 20);
+  m_scene.createObject<sim::Wall>(math::Point(3, -1), 20);
+  m_scene.createObject<sim::Wall>(math::Point(8, 6), 20, 90);
+  m_scene.createObject<sim::Wall>(math::Point(-2, 6), 20, 90);
+
+  m_moleculeController.setSpawnScale(1);
+  m_moleculeController.setSpawnPoint(math::Vec(3, 1));
+  m_moleculeController.setSpawnVelocity(math::Vec(0, 4));
+  m_moleculeController.setSpread(20);
 }
 
 void App::setupUI()
@@ -105,12 +111,6 @@ void App::setupUI()
   ui_root->captureWidget(slider);
 
   root->captureWidget(ui_root);
-  /*
-  root->createWidget<ui::Button>(g_debugController, m_buttonTexture);
-  root->createWidget<ui::Slider>(g_debugController,
-                                 m_sliderBack, m_sliderHandle,
-                                 1, Point(0, .5));
-  */
   m_widgetTree = root;
 }
 
@@ -135,8 +135,6 @@ void App::runMainLoop()
 
   double seconds = 0;
 
-  m_scene.createObject<sim::Wall>(math::Point(5, 13), 20);
-  m_moleculeController.spawnSquare();
 
   math::Transform root = math::Transform(math::Vec(0, 0),
                                        math::Vec(windowWidth, windowHeight));

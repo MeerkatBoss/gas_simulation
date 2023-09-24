@@ -44,8 +44,8 @@ public:
   }
   void setPosition(const Point& position)
   {
-    m_transform[2][0] = position.x;
-    m_transform[2][1] = position.y;
+    m_transform[0][2] = position.x;
+    m_transform[1][2] = position.y;
   }
 
   Vec getScale() const

@@ -41,6 +41,7 @@ private:
   sim::MoleculeController m_moleculeController;
 
   void setupUI();
+  void setupScene();
 
   void runMainLoop(void);
 };
