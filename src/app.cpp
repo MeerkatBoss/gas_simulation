@@ -51,7 +51,7 @@ private:
 static DebugController g_debugController = DebugController();
 
 App::App() :
-  m_moleculeController(m_scene)
+  m_moleculeController(m_scene, m_circleTexture, m_squareTexture)
 {
   using math::Vec;
   using math::Transform;
@@ -60,8 +60,12 @@ App::App() :
                   "Gas simulation",
                   sf::Style::Close);
   m_buttonTexture.loadFromFile("assets/button.png");
+  m_circleButtonTexture.loadFromFile("assets/button_circle.png");
+  m_squareButtonTexture.loadFromFile("assets/button_square.png");
   m_sliderBack.loadFromFile("assets/slider_back.png");
   m_sliderHandle.loadFromFile("assets/slider_handle.png");
+  m_circleTexture.loadFromFile("assets/circle.png");
+  m_squareTexture.loadFromFile("assets/square.png");
 
   setupScene();
   setupUI();
@@ -101,11 +105,13 @@ void App::setupUI()
   ui::WidgetGroup* ui_root
     = new ui::WidgetGroup(Transform(
                           Point(.5, 0), Vec(.5, 1)));
-  ui::Widget* button1 = new ui::Button(m_moleculeController, m_buttonTexture,
+  ui::Widget* button1 = new ui::Button(m_moleculeController,
+                                       m_circleButtonTexture,
                                        0.5, Point(0, 0));
   m_moleculeController.setCircleButton(button1->getId());
 
-  ui::Widget* button2 = new ui::Button(m_moleculeController, m_buttonTexture,
+  ui::Widget* button2 = new ui::Button(m_moleculeController,
+                                       m_squareButtonTexture,
                                        0.5, Point(0.5, 0));
   m_moleculeController.setSquareButton(button2->getId());
 

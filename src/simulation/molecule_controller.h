@@ -10,6 +10,7 @@
 #ifndef __SIMULATION_MOLECULE_CONTROLLER_H
 #define __SIMULATION_MOLECULE_CONTROLLER_H
 
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
 #include <cstddef>
 #include <cmath>
@@ -29,8 +30,12 @@ namespace sim
 class MoleculeController : public ui::ButtonController
 {
 public:
-  MoleculeController(Scene& scene) :
+  MoleculeController(Scene& scene,
+                     const sf::Texture& circle_texture,
+                     const sf::Texture& square_texture) :
     m_scene(scene),
+    m_circleTexture(circle_texture),
+    m_squareTexture(square_texture),
     m_molecules(),
     m_reactionBuilder(),
     m_spawnTransform(),
@@ -44,6 +49,7 @@ public:
   CircleMolecule* spawnCircle()
   {
     CircleMolecule* spawned = m_scene.createObject<CircleMolecule>(
+                                                    m_circleTexture,
                                                     getSpawnVelocity(),
                                                     m_spawnTransform);
     m_molecules.pushBack(spawned);
@@ -53,6 +59,7 @@ public:
   SquareMolecule* spawnSquare()
   {
     SquareMolecule* spawned = m_scene.createObject<SquareMolecule>(
+                                                    m_squareTexture,
                                                     2,
                                                     getSpawnVelocity(),
                                                     m_spawnTransform);
@@ -132,6 +139,9 @@ public:
 
 private:
   Scene&                    m_scene;
+  const sf::Texture& m_circleTexture;
+  const sf::Texture& m_squareTexture;
+
   util::DynArray<Molecule*> m_molecules;
   ReactionBuilder           m_reactionBuilder;
 

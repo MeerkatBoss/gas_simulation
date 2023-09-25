@@ -12,6 +12,7 @@
 #ifndef __SIMULATION_SQUARE_MOLECULE_H
 #define __SIMULATION_SQUARE_MOLECULE_H
 
+#include <SFML/Graphics/Texture.hpp>
 #include "math/transform.h"
 #include "simulation/molecule.h"
 
@@ -21,19 +22,17 @@ namespace sim
 class SquareMolecule : public Molecule
 {
 public:
-  SquareMolecule(      double           mass      = 2,
+  SquareMolecule(const sf::Texture&     texture,
+                       double           mass      = 2,
                  const math::Vec&       velocity  = math::Vec(),
                  const math::Transform& transform = math::Transform()) :
-    Molecule(mass, velocity, transform)
+    Molecule(texture, mass, velocity, transform)
   {
   }
 
   void addToReaction(ReactionBuilder& builder) const override;
 
   BoundingBox getBoundingBox() const override;
-
-  void draw(ui::Canvas& window,
-            const math::Transform& parent_transform) const override;
 
   ~SquareMolecule() override = default;
 };

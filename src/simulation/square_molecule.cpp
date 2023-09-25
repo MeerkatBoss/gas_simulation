@@ -30,21 +30,4 @@ BoundingBox SquareMolecule::getBoundingBox() const
   };
 }
 
-void SquareMolecule::draw(ui::Canvas& window,
-                          const math::Transform& parent_transform) const
-{
-  math::Transform realTransform = parent_transform * transform();
-
-  sf::RectangleShape square;
-  square.setSize(math::Vec(1, 1));
-  square.setOrigin(math::Vec(0.5, 0.5));
-  square.setPosition(realTransform.getPosition());
-  square.setScale(realTransform.getScale());
-  square.setFillColor(sf::Color::Red);
-  square.setOutlineThickness(0.05);
-  square.setOutlineColor(sf::Color::Black);
-
-  window.renderTexture().draw(square);
-}
-
 } // namespace sim

@@ -12,6 +12,9 @@
 #ifndef __SIMULATION_MOLECULE_H
 #define __SIMULATION_MOLECULE_H
 
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/System/Vector2.hpp>
 #include "math/transform.h"
 #include "simulation/scene_object.h"
 #include "simulation/movable.h"
@@ -25,11 +28,15 @@ class ReactionBuilder;
 class Molecule : public SceneObject, public Movable
 {
 public:
-  Molecule(      double           mass      = 1,
+  Molecule(const sf::Texture&     texture,
+                 double           mass      = 1,
            const math::Vec&       velocity  = math::Vec(),
            const math::Transform& transform = math::Transform()) :
-    SceneObject(transform), Movable(mass, velocity)
+    SceneObject(transform), Movable(mass, velocity),
+    m_sprite(texture)
   {
+    m_sprite.setOrigin(sf::Vector2f(texture.getSize().x / 2,
+                                    texture.getSize().y / 2));
   }
 
   virtual bool isMovable() const override { return true; }
@@ -46,8 +53,13 @@ public:
   virtual void addToReaction(ReactionBuilder& builder) const = 0;
 
   virtual void collide(SceneObject& other) override;
+  
+  virtual void draw(ui::Canvas& window,
+                    const math::Transform& parent_transform) const override;
 
   virtual ~Molecule() = default;
+private:
+  mutable sf::Sprite m_sprite;
 };
 
 } // namespace sim

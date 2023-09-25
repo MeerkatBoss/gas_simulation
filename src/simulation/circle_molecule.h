@@ -12,6 +12,7 @@
 #ifndef __SIMULATION_CIRCLE_MOLECULE_H
 #define __SIMULATION_CIRCLE_MOLECULE_H
 
+#include <SFML/Graphics/Texture.hpp>
 #include "simulation/molecule.h"
 
 namespace sim
@@ -20,18 +21,16 @@ namespace sim
 class CircleMolecule : public Molecule
 {
 public:
-  CircleMolecule(const math::Vec&       velocity  = math::Vec(),
+  CircleMolecule(const sf::Texture&     texture,
+                 const math::Vec&       velocity  = math::Vec(),
                  const math::Transform& transform = math::Transform()) :
-    Molecule(1, velocity, transform)
+    Molecule(texture, 1, velocity, transform)
   {
   }
 
   void addToReaction(ReactionBuilder& builder) const override;
 
   BoundingBox getBoundingBox() const override;
-
-  void draw(ui::Canvas& window,
-            const math::Transform& parent_transform) const override;
 
   ~CircleMolecule() override = default;
 };

@@ -41,4 +41,20 @@ void Molecule::collide(SceneObject& other)
     v2 - (2 * m1) / (m1 + m2) * (v2_x - v1_x);
 }
 
+void Molecule::draw(ui::Canvas& window,
+                    const math::Transform& parent_transform) const
+{
+  math::Transform realTransform = parent_transform * transform();
+
+  math::Vec scale = realTransform.getScale();
+  scale.x /= m_sprite.getTexture()->getSize().x;
+  scale.y /= m_sprite.getTexture()->getSize().y;
+
+  m_sprite.setScale(scale);
+  m_sprite.setRotation(realTransform.getAngleDeg());
+  m_sprite.setPosition(realTransform.getPosition());
+
+  window.renderTexture().draw(m_sprite);
+}
+
 } // namespace sim

@@ -32,8 +32,12 @@ public:
   void run(void);
 private:
   sf::Texture m_buttonTexture;
+  sf::Texture m_circleButtonTexture;
+  sf::Texture m_squareButtonTexture;
   sf::Texture m_sliderBack;
   sf::Texture m_sliderHandle;
+  sf::Texture m_circleTexture;
+  sf::Texture m_squareTexture;
 
   sf::RenderWindow        m_window;
   ui::Widget*             m_widgetTree;
