@@ -12,7 +12,10 @@
 #ifndef __UI_BUTTON_H
 #define __UI_BUTTON_H
 
+#include <cstddef>
+
 #include <SFML/Graphics/Texture.hpp>
+
 #include "math/transform.h"
 #include "ui/widget.h"
 namespace ui
@@ -21,9 +24,9 @@ namespace ui
 class ButtonController
 {
 public:
-  virtual void onClick() { return; }
-  virtual void onHold() { return; }
-  virtual void onRelease() { return; }
+  virtual void onClick([[maybe_unused]] size_t button_id) { return; }
+  virtual void onHold([[maybe_unused]] size_t button_id) { return; }
+  virtual void onRelease([[maybe_unused]] size_t button_id) { return; }
 
   virtual ~ButtonController() = default;
 };

@@ -30,10 +30,17 @@ void Wall::collide(SceneObject& other)
 
   Movable* otherMovable = other.asMovable();
 
-  math::Vec normal = transform().up();
-  math::Vec reflected = otherMovable->velocity()
-                        - 2*otherMovable->velocity().projectOn(normal);
-  otherMovable->velocity() = reflected;
+  const math::Vec normal = transform().up();
+  const math::Vec delta = (transform().getPosition() -
+                           other.transform().getPosition()).projectOn(normal);
+
+  // If object is moving away
+  if (math::Vec::dotProduct(delta, otherMovable->velocity()) < 0)
+  {
+    return;
+  }
+
+  otherMovable->velocity() -= 2*otherMovable->velocity().projectOn(normal);
 }
 
 void Wall::draw(ui::Canvas& window, const math::Transform& parent_transform)

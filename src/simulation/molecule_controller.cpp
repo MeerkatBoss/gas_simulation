@@ -10,6 +10,32 @@
 namespace sim
 {
 
+void MoleculeController::onHold(size_t button_id)
+{
+  if (button_id != m_circleButtonId &&
+      button_id != m_squareButtonId)
+  {
+    return;
+  }
+
+  double delta = m_clock.restart().asSeconds();
+
+  m_circleSeconds += delta;
+  m_squareSeconds += delta;
+
+  while (button_id == m_circleButtonId && m_circleSeconds > m_spawnDelay)
+  {
+    spawnCircle();
+    m_circleSeconds -= m_spawnDelay;
+  }
+
+  while (button_id == m_squareButtonId && m_squareSeconds > m_spawnDelay)
+  {
+    spawnSquare();
+    m_squareSeconds -= m_spawnDelay;
+  }
+}
+
 math::Vec MoleculeController::getSpawnVelocity() const
 {
   const double angle = (double(rand()) / RAND_MAX - 0.5) * 2 * m_spreadAngleDeg;

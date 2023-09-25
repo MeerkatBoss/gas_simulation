@@ -141,6 +141,8 @@ static MouseEvent getMouseHoldEvent(const sf::RenderWindow& sfml_window,
 
 }
 
+size_t Widget::s_idCounter = 0;
+
 bool Widget::containsPoint(
                   const math::Point& point,
                   const math::Transform&  parent_transform)

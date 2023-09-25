@@ -10,6 +10,7 @@
 #ifndef __SIMULATION_MOLECULE_CONTROLLER_H
 #define __SIMULATION_MOLECULE_CONTROLLER_H
 
+#include <SFML/System/Clock.hpp>
 #include <cstddef>
 #include <cmath>
 
@@ -19,25 +20,25 @@
 #include "simulation/square_molecule.h"
 #include "simulation/scene.h"
 #include "simulation/reaction_builder.h"
+#include "ui/button.h"
 #include "util/dyn_array.h"
 
 namespace sim
 {
 
-class MoleculeController
+class MoleculeController : public ui::ButtonController
 {
 public:
-  MoleculeController(Scene& scene,
-                     double molecule_size = 1,
-                     const math::Point& spawn_point = math::Point(0, 0),
-                     const math::Vec& spawn_velocity = math::Vec::UnitY,
-                     double spread_angle = 0) :
+  MoleculeController(Scene& scene) :
     m_scene(scene),
     m_molecules(),
     m_reactionBuilder(),
-    m_spawnTransform(spawn_point, math::Vec(molecule_size, molecule_size)),
-    m_spawnVelocity(spawn_velocity),
-    m_spreadAngleDeg(spread_angle)
+    m_spawnTransform(),
+    m_spawnVelocity(math::Vec::UnitY),
+    m_spreadAngleDeg(0),
+    m_spawnDelay(INFINITY),
+    m_circleButtonId(0),
+    m_squareButtonId(0)
   {}
 
   CircleMolecule* spawnCircle()
@@ -85,6 +86,46 @@ public:
     m_spreadAngleDeg = angle_deg;
   }
 
+  void setSpawnRate(double molecules_per_second)
+  {
+    if (fabs(molecules_per_second) < 1e-6)
+    {
+      m_spawnDelay = INFINITY;
+      return;
+    }
+
+    m_spawnDelay = 1.0 / fabs(molecules_per_second);
+  }
+
+  void setCircleButton(size_t button_id)
+  {
+    m_circleButtonId = button_id;
+  }
+
+  void setSquareButton(size_t button_id)
+  {
+    m_squareButtonId = button_id;
+  }
+
+  void onClick(size_t button_id) override
+  {
+    if (button_id != m_circleButtonId &&
+        button_id != m_squareButtonId)
+    {
+      return;
+    }
+
+    double delta = m_clock.restart().asSeconds();
+    m_circleSeconds += delta;
+    m_squareSeconds += delta;
+
+    if (button_id == m_circleButtonId)
+      m_circleSeconds = 0;
+    else
+      m_squareSeconds = 0;
+  }
+  void onHold(size_t button_id) override;
+
   void runReactions();
 
   ~MoleculeController() = default;
@@ -97,6 +138,15 @@ private:
   math::Transform m_spawnTransform;
   math::Vec       m_spawnVelocity;
   double          m_spreadAngleDeg;
+  double          m_spawnDelay;
+
+  size_t m_circleButtonId;
+  size_t m_squareButtonId;
+
+  double m_circleSeconds;
+  double m_squareSeconds;
+
+  sf::Clock m_clock;
 
   math::Vec getSpawnVelocity() const;
 

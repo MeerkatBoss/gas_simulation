@@ -13,7 +13,7 @@ void Button::handleMouseEvent(
 
   if (m_pressed && event.type == MouseEvent::Type::Release)
   {
-    m_controller.onRelease();
+    m_controller.onRelease(getId());
     m_pressed = false;
     return;
   }
@@ -21,7 +21,7 @@ void Button::handleMouseEvent(
   if (event.type == MouseEvent::Type::Click
       && containsPoint(event.position, parent_transform))
   {
-    m_controller.onClick();
+    m_controller.onClick(getId());
     m_pressed = true;
     return;
   }
@@ -32,7 +32,7 @@ void Button::draw(
               const math::Transform&  parent_transform)
 {
   if (m_pressed)
-    m_controller.onHold();
+    m_controller.onHold(getId());
 
   math::Transform realTransform = parent_transform * transform();
   

@@ -32,10 +32,11 @@ BoundingBox CircleMolecule::getBoundingBox() const
 void CircleMolecule::draw(ui::Canvas& window,
                           const math::Transform& parent_transform) const
 {
-  math::Transform realTransform = transform() * parent_transform;
+  math::Transform realTransform = parent_transform * transform();
 
   sf::CircleShape circle;
   circle.setRadius(0.5);
+  circle.setOrigin(sf::Vector2f(0.5, 0.5));
   circle.setPosition(realTransform.getPosition());
   circle.setScale(realTransform.getScale());
   circle.setFillColor(sf::Color::Yellow);

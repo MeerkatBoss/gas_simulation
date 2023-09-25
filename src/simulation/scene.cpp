@@ -1,5 +1,6 @@
 #include "simulation/scene.h"
 #include <cstddef>
+#include <cstdio>
 #include "simulation/movable.h"
 #include "simulation/scene_object.h"
 

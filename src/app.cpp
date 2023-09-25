@@ -18,17 +18,17 @@
 class DebugController : public ui::ButtonController, public ui::SliderController
 {
 public:
-  void onClick() override
+  void onClick(size_t) override
   {
     puts("DEBUG: Clicked!");
   }
 
-  void onHold() override
+  void onHold(size_t) override
   {
     puts("DEBUG: Holding...");
   }
 
-  void onRelease() override
+  void onRelease(size_t) override
   {
     puts("DEBUG: Released!");
   }
@@ -69,6 +69,7 @@ App::App() :
 
 void App::setupScene()
 {
+  // m_scene.createObject<sim::Wall>(math::Point(3, 13), 20);
   m_scene.createObject<sim::Wall>(math::Point(3, 13), 20);
   m_scene.createObject<sim::Wall>(math::Point(3, -1), 20);
   m_scene.createObject<sim::Wall>(math::Point(8, 6), 20, 90);
@@ -78,6 +79,7 @@ void App::setupScene()
   m_moleculeController.setSpawnPoint(math::Vec(3, 1));
   m_moleculeController.setSpawnVelocity(math::Vec(0, 4));
   m_moleculeController.setSpread(20);
+  m_moleculeController.setSpawnRate(2.3);
 }
 
 void App::setupUI()
@@ -99,10 +101,14 @@ void App::setupUI()
   ui::WidgetGroup* ui_root
     = new ui::WidgetGroup(Transform(
                           Point(.5, 0), Vec(.5, 1)));
-  ui::Widget* button1 = new ui::Button(g_debugController, m_buttonTexture,
+  ui::Widget* button1 = new ui::Button(m_moleculeController, m_buttonTexture,
                                        0.5, Point(0, 0));
-  ui::Widget* button2 = new ui::Button(g_debugController, m_buttonTexture,
+  m_moleculeController.setCircleButton(button1->getId());
+
+  ui::Widget* button2 = new ui::Button(m_moleculeController, m_buttonTexture,
                                        0.5, Point(0.5, 0));
+  m_moleculeController.setSquareButton(button2->getId());
+
   ui::Widget* slider = new ui::Slider(g_debugController,
                                  m_sliderBack, m_sliderHandle,
                                  1, Point(0, .5));
@@ -133,9 +139,6 @@ void App::runMainLoop()
   sf::Event event;
   sf::Clock clock;
 
-  double seconds = 0;
-
-
   math::Transform root = math::Transform(math::Vec(0, 0),
                                        math::Vec(windowWidth, windowHeight));
   while (m_window.isOpen())
@@ -146,15 +149,6 @@ void App::runMainLoop()
       {
         m_window.close();
       }
-      if (event.type == sf::Event::MouseButtonPressed)
-      {
-        sim::SceneObject* object = m_scene.findObject(1);
-        if (object != nullptr)
-        {
-          object->kill();
-        }
-      }
-
       m_widgetTree->handleMouseEvent(
                       ui::MouseEvent::getMouseEvent(m_window, event), root);
     }
@@ -162,14 +156,16 @@ void App::runMainLoop()
     {
       break;
     }
-    double delta_time = clock.restart().asSeconds(); // clock.restart().asSeconds();
-    seconds += delta_time;
+    double delta_time = clock.restart().asSeconds();
 
+    /*
+    seconds += delta_time;
     while (seconds > 1)
     {
       --seconds;
       m_moleculeController.spawnSquare();
     }
+    */
 
     m_window.clear();
     m_moleculeController.runReactions();
