@@ -76,14 +76,13 @@ App::App() :
 
 void App::setupScene()
 {
-  // m_scene.createObject<sim::Wall>(math::Point(3, 13), 20);
   m_scene.createObject<sim::Wall>(math::Point(3, 13), 20);
   m_scene.createObject<sim::Wall>(math::Point(3, -1), 20);
   m_scene.createObject<sim::Wall>(math::Point(8, 6), 20, 90);
   m_scene.createObject<sim::Wall>(math::Point(-2, 6), 20, 90);
 
   m_moleculeController.setSpawnScale(1);
-  m_moleculeController.setSpawnPoint(math::Vec(3, 1));
+  m_moleculeController.setSpawnPoint(math::Vec(3, 0.5));
   m_moleculeController.setSpawnVelocity(math::Vec(0, 4));
   m_moleculeController.setSpread(20);
   m_moleculeController.setSpawnRate(2.3);
@@ -94,6 +93,10 @@ void App::setupScene()
       new sim::CircleAbsorbReactionTemplate(m_moleculeController));
   m_moleculeController.addReactionTemplate(
       new sim::SquareSplitReactionTemplate(m_moleculeController));
+
+  sim::Wall* piston = m_scene.createObject<sim::Wall>(math::Point(3, 6), 20);
+  m_pistonController.setPiston(piston);
+  m_pistonController.setPistonRange(math::Point(3, 2), math::Point(3, 10));
 }
 
 void App::setupUI()
@@ -112,27 +115,33 @@ void App::setupUI()
 
   root->captureWidget(scene_view);
 
-  ui::WidgetGroup* ui_root
-    = new ui::WidgetGroup(Transform(
-                          Point(.5, 0), Vec(.5, 1)));
+  ui::WidgetGroup* spawn_controls =
+      new ui::WidgetGroup(Transform(Point(.6, .5), Vec(.4, .5)));
   ui::Widget* button1 = new ui::Button(m_moleculeController,
                                        m_circleButtonTexture,
-                                       0.5, Point(0, 0));
+                                       .35, Point(.1, 0));
   m_moleculeController.setCircleButton(button1->getId());
 
   ui::Widget* button2 = new ui::Button(m_moleculeController,
                                        m_squareButtonTexture,
-                                       0.5, Point(0.5, 0));
+                                       .35, Point(.55, 0));
   m_moleculeController.setSquareButton(button2->getId());
 
   ui::Widget* slider = new ui::Slider(m_moleculeController,
                                  m_sliderBack, m_sliderHandle,
-                                 1, Point(0, .5));
-  ui_root->captureWidget(button1);
-  ui_root->captureWidget(button2);
-  ui_root->captureWidget(slider);
+                                 .8, Point(.1, .5));
 
-  root->captureWidget(ui_root);
+  spawn_controls->captureWidget(button1);
+  spawn_controls->captureWidget(button2);
+  spawn_controls->captureWidget(slider);
+
+  ui::Widget* piston = new ui::Slider(m_pistonController,
+                                 m_sliderBack, m_sliderHandle,
+                                 0.8, Point(.6, .9), 180);
+
+
+  root->captureWidget(spawn_controls);
+  root->captureWidget(piston);
   m_widgetTree = root;
 }
 
@@ -183,7 +192,7 @@ void App::runMainLoop()
     }
     */
 
-    m_window.clear();
+    m_window.clear(sf::Color(128, 128, 128));
     m_moleculeController.runReactions();
     m_scene.updateObjects(delta_time);
 

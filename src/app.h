@@ -15,6 +15,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include "simulation/molecule_controller.h"
+#include "simulation/piston_controller.h"
 #include "simulation/scene.h"
 #include "ui/scene_view.h"
 #include "ui/canvas.h"
@@ -23,8 +24,8 @@
 class App
 {
 public:
-  static constexpr size_t windowWidth  = 1024;
-  static constexpr size_t windowHeight = 720;
+  static constexpr size_t windowWidth  = 1000;
+  static constexpr size_t windowHeight = 700;
 
   App();
   ~App();
@@ -43,6 +44,7 @@ private:
   ui::Widget*             m_widgetTree;
   sim::Scene              m_scene;
   sim::MoleculeController m_moleculeController;
+  sim::PistonController   m_pistonController;
 
   void setupUI();
   void setupScene();
