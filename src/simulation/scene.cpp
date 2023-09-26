@@ -30,6 +30,8 @@ void Scene::drawAll(      ui::Canvas&      window,
 
 void Scene::updateObjects(double delta_time_sec)
 {
+  collectDeadObjects();
+
   for (size_t first = 0; first < m_objects.getSize(); ++first)
   {
     for (size_t second = first + 1; second < m_objects.getSize(); ++second)
@@ -42,7 +44,6 @@ void Scene::updateObjects(double delta_time_sec)
   }
 
   tickObjects(delta_time_sec);
-  collectDeadObjects();
 }
 
 void Scene::tickObjects(double delta_time_sec)
