@@ -225,8 +225,8 @@ static double getMeanEnergy(const sim::Scene& scene)
       continue;
     
     const sim::Movable* movable = scene[i]->asMovable();
-    sum += movable->getMass() * math::Vec::dotProduct(movable->velocity(),
-                                                      movable->velocity());
+    sum += math::Vec::dotProduct(movable->velocity(),
+                                 movable->velocity());
     ++ count;
   }
 
