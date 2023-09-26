@@ -5,6 +5,7 @@
 #include "math/transform.h"
 #include "simulation/molecule_controller.h"
 #include "simulation/reactions/circle_absorb_reaction.h"
+#include "simulation/reactions/square_split_reaction.h"
 #include "simulation/scene_object.h"
 #include "simulation/wall.h"
 #include "simulation/reactions/circle_fuse_reaction.h"
@@ -91,6 +92,8 @@ void App::setupScene()
       new sim::CircleFuseReactionTemplate(m_moleculeController));
   m_moleculeController.addReactionTemplate(
       new sim::CircleAbsorbReactionTemplate(m_moleculeController));
+  m_moleculeController.addReactionTemplate(
+      new sim::SquareSplitReactionTemplate(m_moleculeController));
 }
 
 void App::setupUI()
