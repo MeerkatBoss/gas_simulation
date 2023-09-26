@@ -67,6 +67,13 @@ public:
 
   void updateObjects(double delta_time_sec);
 
+  size_t getObjectCount() const { return m_objects.getSize(); }
+
+  const SceneObject* operator[](size_t idx) const
+  {
+    return m_objects[idx];
+  }
+
 private:
   util::DynArray<SceneObject*> m_objects;
 

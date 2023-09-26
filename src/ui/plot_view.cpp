@@ -12,7 +12,7 @@ void PlotView::draw(sf::RenderTarget& draw_target,
   m_canvas->renderTexture().clear(sf::Color::White);
 
   const size_t unit_x_px = m_canvas->renderTexture().getSize().x;
-  const size_t unit_y_px = m_canvas->renderTexture().getSize().y;
+  const size_t unit_y_px = m_canvas->renderTexture().getSize().y * m_unitY;
 
   if (m_recordsCount > 0)
   {
@@ -29,8 +29,8 @@ void PlotView::draw(sf::RenderTarget& draw_target,
       vertex_array[2*i].color = sf::Color::Red;
 
       vertex_array[2*i + 1].position = sf::Vector2f(
-        x * unit_x_px,
-        m_records[idx].y * unit_y_px - 5
+        x * unit_x_px + 15,
+        m_records[idx].y * unit_y_px - 15
       );
       vertex_array[2*i + 1].color = sf::Color::Red;
 

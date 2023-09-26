@@ -6,6 +6,7 @@
 #include "simulation/molecule_controller.h"
 #include "simulation/reactions/circle_absorb_reaction.h"
 #include "simulation/reactions/square_split_reaction.h"
+#include "simulation/scene.h"
 #include "simulation/scene_object.h"
 #include "simulation/wall.h"
 #include "simulation/reactions/circle_fuse_reaction.h"
@@ -143,7 +144,7 @@ void App::setupUI()
   ui::Canvas* plot_canvas =
     new ui::Canvas(size_t(App::windowWidth*0.8) , App::windowHeight,
           Transform(Point(.6, 0), Vec(.4, .5)));
-  ui::PlotView* plot = new ui::PlotView(plot_canvas, .2, .5);
+  ui::PlotView* plot = new ui::PlotView(plot_canvas, .01, 1.0/150);
   m_plotView = plot;
 
   root->captureWidget(spawn_controls);
@@ -165,6 +166,8 @@ void App::run()
 {
   runMainLoop();
 }
+
+static double getMeanEnergy(const sim::Scene& scene);
 
 void App::runMainLoop()
 {
@@ -199,7 +202,9 @@ void App::runMainLoop()
     }
     */
 
-    m_plotView->addPoint(delta_time, double(rand()) / RAND_MAX);
+    double energy = getMeanEnergy(m_scene);
+    // printf("%lg\n", energy);
+    m_plotView->addPoint(delta_time / 5, energy);
     m_window.clear(sf::Color(128, 128, 128));
     m_moleculeController.runReactions();
     m_scene.updateObjects(delta_time);
@@ -207,4 +212,25 @@ void App::runMainLoop()
     m_widgetTree->draw(m_window, root);
     m_window.display();
   }
+
+}
+
+static double getMeanEnergy(const sim::Scene& scene)
+{
+  double sum = 0;
+  size_t count = 0;
+  for (size_t i = 0; i < scene.getObjectCount(); ++i)
+  {
+    if (!scene[i]->isMovable())
+      continue;
+    
+    const sim::Movable* movable = scene[i]->asMovable();
+    sum += movable->getMass() * math::Vec::dotProduct(movable->velocity(),
+                                                      movable->velocity());
+    ++ count;
+  }
+
+  if (count == 0)
+    return 0;
+  return sum / count;
 }
