@@ -139,7 +139,7 @@ public:
     m_spawnVelocity *= value / m_spawnVelocity.length();
   }
 
-  double getMaxVal() override { return 11; }
+  double getMaxVal() override { return 21; }
 
   double getMinVal() override { return 1; }
 

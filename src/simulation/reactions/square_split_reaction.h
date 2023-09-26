@@ -56,22 +56,51 @@ public:
 
   virtual Reaction* startReaction(const Reagents& reagents) override
   {
+    using math::Vec;
+    using math::Point;
+
     if (reagents.circles.isEmpty() &&
         reagents.squares.getSize() == 2)
     {
-      const SquareMolecule* m0 = reagents.squares[0];
-      const SquareMolecule* m1 = reagents.squares[1];
+      const SquareMolecule* molecule0 = reagents.squares[0];
+      const SquareMolecule* molecule1 = reagents.squares[1];
 
-      math::Vec position = m1->transform().getPosition();
-      math::Vec velocity = (m0->getMass() * m0->velocity() + 
-                            m1->getMass() * m1->velocity())
-                            / (m0->getMass() + m1->getMass());
+      const double m0 = molecule0->getMass();
+      const double m1 = molecule1->getMass();
 
-      return new SquareSplitReaction(
-          m_controller,
-          position,
-          velocity,
-          m0->getMass() + m1->getMass());
+      const Vec v0 = molecule0->velocity();
+      const Vec v1 = molecule1->velocity();
+
+      const Point x0 = molecule0->transform().getPosition();
+      const Point x1 = molecule1->transform().getPosition();
+
+      if ((x1 - x0).isZero())
+      {
+        return nullptr;
+      }
+
+      // Molecules are flying away from each other
+      if (Vec::dotProduct(v0, x1 - x0) < 0 &&
+          Vec::dotProduct(v1, x0 - x1) < 0)
+      {
+        return nullptr;
+      }
+
+      const double speed0 = v0.projectOn(x1 - x0).length();
+      const double speed1 = v1.projectOn(x0 - x1).length();
+
+      const double energy = (m0*speed0*speed0 + m1*speed1*speed1) / 2;
+
+      // Not enough energy
+      if (energy < 0.5*(m0 + m1))
+      {
+        return nullptr;
+      }
+
+      Vec position = (x0 + x1) / 2;
+      Vec velocity = (m0 * v0 + m1 * v1) / (m0 + m1);
+
+      return new SquareSplitReaction(m_controller, position, velocity, m0 + m1);
     }
 
     return nullptr;

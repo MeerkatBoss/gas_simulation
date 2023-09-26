@@ -56,22 +56,40 @@ public:
 
   virtual Reaction* startReaction(const Reagents& reagents) override
   {
+    using math::Vec;
+    using math::Point;
+
     if (reagents.circles.getSize() == 1 &&
         reagents.squares.getSize() == 1)
     {
-      const CircleMolecule* m0 = reagents.circles[0];
-      const SquareMolecule* m1 = reagents.squares[0];
+      const CircleMolecule* molecule0 = reagents.circles[0];
+      const SquareMolecule* molecule1 = reagents.squares[0];
 
-      math::Vec position = m1->transform().getPosition();
-      math::Vec velocity = (m0->getMass() * m0->velocity() + 
-                            m1->getMass() * m1->velocity())
-                            / (m0->getMass() + m1->getMass());
+      const double m0 = molecule0->getMass();
+      const double m1 = molecule1->getMass();
 
-      return new CircleAbsorbReaction(
-          m_controller,
-          position,
-          velocity,
-          m0->getMass() + m1->getMass());
+      const Vec v0 = molecule0->velocity();
+      const Vec v1 = molecule1->velocity();
+
+      const Point x0 = molecule0->transform().getPosition();
+      const Point x1 = molecule1->transform().getPosition();
+
+      if ((x1 - x0).isZero())
+      {
+        return nullptr;
+      }
+
+      // Molecules are flying away from each other
+      if (Vec::dotProduct(v0, x1 - x0) < 0 &&
+          Vec::dotProduct(v1, x0 - x1) < 0)
+      {
+        return nullptr;
+      }
+
+      Vec position = x1;
+      Vec velocity = (m0 * v0 + m1 * v1) / (m0 + m1);
+
+      return new CircleAbsorbReaction(m_controller, position, velocity, m0 + m1);
     }
 
     return nullptr;

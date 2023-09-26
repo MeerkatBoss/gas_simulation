@@ -20,6 +20,11 @@ void Molecule::collide(SceneObject& other)
   const Point x2 = other.transform().getPosition();
   const Vec delta = x1 - x2;
 
+  if (delta.isZero())
+  {
+    return;
+  }
+
   const Vec v1 = velocity();
   const Vec v2 = otherMovable->velocity();
   const double m1 = getMass();
