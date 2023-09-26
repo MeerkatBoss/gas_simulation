@@ -22,12 +22,14 @@
 #include "simulation/scene.h"
 #include "simulation/reaction_builder.h"
 #include "ui/button.h"
+#include "ui/slider.h"
 #include "util/dyn_array.h"
 
 namespace sim
 {
 
-class MoleculeController : public ui::ButtonController
+class MoleculeController : public ui::ButtonController,
+                           public ui::SliderController
 {
 public:
   MoleculeController(Scene& scene,
@@ -132,6 +134,20 @@ public:
       m_squareSeconds = 0;
   }
   void onHold(size_t button_id) override;
+
+  void onSetVal(double value) override
+  {
+    m_spawnVelocity *= value / m_spawnVelocity.length();
+  }
+
+  double getMaxVal() override { return 11; }
+
+  double getMinVal() override { return 1; }
+
+  double getCurVal() override
+  {
+    return m_spawnVelocity.length();
+  }
 
   void runReactions();
 

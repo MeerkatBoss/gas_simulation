@@ -115,7 +115,7 @@ void App::setupUI()
                                        0.5, Point(0.5, 0));
   m_moleculeController.setSquareButton(button2->getId());
 
-  ui::Widget* slider = new ui::Slider(g_debugController,
+  ui::Widget* slider = new ui::Slider(m_moleculeController,
                                  m_sliderBack, m_sliderHandle,
                                  1, Point(0, .5));
   ui_root->captureWidget(button1);
