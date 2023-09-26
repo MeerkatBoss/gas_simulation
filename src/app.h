@@ -17,6 +17,7 @@
 #include "simulation/molecule_controller.h"
 #include "simulation/piston_controller.h"
 #include "simulation/scene.h"
+#include "ui/plot_view.h"
 #include "ui/scene_view.h"
 #include "ui/canvas.h"
 #include "ui/widget.h"
@@ -42,6 +43,7 @@ private:
 
   sf::RenderWindow        m_window;
   ui::Widget*             m_widgetTree;
+  ui::PlotView*           m_plotView;
   sim::Scene              m_scene;
   sim::MoleculeController m_moleculeController;
   sim::PistonController   m_pistonController;

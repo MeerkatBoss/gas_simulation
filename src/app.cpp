@@ -10,6 +10,7 @@
 #include "simulation/wall.h"
 #include "simulation/reactions/circle_fuse_reaction.h"
 #include "ui/canvas.h"
+#include "ui/plot_view.h"
 #include "ui/widget.h"
 #include "ui/button.h"
 #include "ui/slider.h"
@@ -139,9 +140,15 @@ void App::setupUI()
                                  m_sliderBack, m_sliderHandle,
                                  0.8, Point(.6, .9), 180);
 
+  ui::Canvas* plot_canvas =
+    new ui::Canvas(size_t(App::windowWidth*0.8) , App::windowHeight,
+          Transform(Point(.6, 0), Vec(.4, .5)));
+  ui::PlotView* plot = new ui::PlotView(plot_canvas, .2, .5);
+  m_plotView = plot;
 
   root->captureWidget(spawn_controls);
   root->captureWidget(piston);
+  root->captureWidget(plot);
   m_widgetTree = root;
 }
 
@@ -192,6 +199,7 @@ void App::runMainLoop()
     }
     */
 
+    m_plotView->addPoint(delta_time, double(rand()) / RAND_MAX);
     m_window.clear(sf::Color(128, 128, 128));
     m_moleculeController.runReactions();
     m_scene.updateObjects(delta_time);
