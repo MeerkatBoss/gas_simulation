@@ -77,16 +77,18 @@ void MoleculeController::runReactions()
 
       while (started->hasNextResult())
       {
-        Molecule* result = started->getNextResult();
-        m_scene.captureObject(result);
-        m_molecules.pushBack(result);
+        started->spawnNextResult();
       }
+
+      delete started;
 
       m_molecules[first]->kill();
       m_molecules[first] = nullptr;
       
       m_molecules[second]->kill();
       m_molecules[second] = nullptr;
+
+      break;
     }
   }
 

@@ -6,6 +6,7 @@
 #include "simulation/molecule_controller.h"
 #include "simulation/scene_object.h"
 #include "simulation/wall.h"
+#include "simulation/reactions/circle_fuse_reaction.h"
 #include "ui/canvas.h"
 #include "ui/widget.h"
 #include "ui/button.h"
@@ -84,6 +85,9 @@ void App::setupScene()
   m_moleculeController.setSpawnVelocity(math::Vec(0, 4));
   m_moleculeController.setSpread(20);
   m_moleculeController.setSpawnRate(2.3);
+
+  m_moleculeController.addReactionTemplate(
+      new sim::CircleFuseReactionTemplate(m_moleculeController));
 }
 
 void App::setupUI()

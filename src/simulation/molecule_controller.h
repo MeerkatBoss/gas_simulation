@@ -58,21 +58,20 @@ public:
     return spawned;
   }
 
-  SquareMolecule* spawnSquare()
+  SquareMolecule* spawnSquare(double mass = 2)
   {
     SquareMolecule* spawned = m_scene.createObject<SquareMolecule>(
                                                     m_squareTexture,
-                                                    2,
+                                                    mass,
                                                     getSpawnVelocity(),
                                                     m_spawnTransform);
     m_molecules.pushBack(spawned);
     return spawned;
   }
 
-  template<typename TReaction, typename... TArgs>
-  void addReactionTemplate(const TArgs&... args)
+  void addReactionTemplate(ReactionTemplate* reaction)
   {
-    m_reactionBuilder.addReactionTemplate<TReaction>(args...);
+    m_reactionBuilder.addReactionTemplate(reaction);
   }
 
   void setSpawnPoint(const math::Point& spawn_point)

@@ -20,6 +20,9 @@
 
 namespace sim
 {
+
+class MoleculeController;
+
 struct Reagents
 {
   util::DynArray<const CircleMolecule*> circles;
@@ -29,24 +32,32 @@ struct Reagents
 class Reaction
 {
 public:
-  Reaction(double energy_produced) : m_energyProduced(energy_produced) {}
+  Reaction(MoleculeController& controller) :
+    m_controller(controller)
+  {
+  }
 
-  double getEnergyProduced() const { return m_energyProduced; }
-
-  virtual bool      hasNextResult() const = 0;
-  virtual Molecule* getNextResult()       = 0;
+  virtual bool hasNextResult() const = 0;
+  virtual void spawnNextResult() = 0;
   
   virtual ~Reaction() = default;
-private:
-  const double m_energyProduced;
+protected:
+  MoleculeController& m_controller;
 };
 
 class ReactionTemplate
 {
 public:
+  ReactionTemplate(MoleculeController& controller) :
+    m_controller(controller)
+  {
+  }
+
   virtual Reaction* startReaction(const Reagents& reagents) = 0;
 
   virtual ~ReactionTemplate() = default;
+protected:
+  MoleculeController& m_controller;
 };
 
 class ReactionBuilder
@@ -59,10 +70,9 @@ public:
     molecule.addToReaction(*this);
   }
 
-  template<typename TReaction, typename... TArgs>
-  void addReactionTemplate(const TArgs&... args)
+  void addReactionTemplate(ReactionTemplate* reaction)
   {
-    m_reactions.pushBack(new TReaction(args...));
+    m_reactions.pushBack(reaction);
   }
 
   Reaction* buildReaction();
